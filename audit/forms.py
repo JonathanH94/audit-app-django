@@ -16,7 +16,7 @@ class AuditForm(forms.Form):
         self.questionnaire = questionnaire
         self.fields['user'] = forms.CharField(widget=forms.HiddenInput)
         self.fields['team'] = forms.ModelChoiceField(queryset=Team.objects.all())
-        self.fields['completed_date'] = forms.DateTimeField()
+        self.fields['completed_date'] = forms.DateTimeField(widget=forms.SelectDateWidget())
 
         for category in questionnaire.questioncategory_set.all():
                for question in category.question_set.all():
