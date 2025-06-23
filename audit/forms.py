@@ -14,7 +14,6 @@ class AuditForm(forms.Form):
         super().__init__(*args, **kwargs)
 
         self.questionnaire = questionnaire
-        self.fields['user'] = forms.CharField(widget=forms.HiddenInput)
         self.fields['team'] = forms.ModelChoiceField(queryset=Team.objects.all())
         self.fields['completed_date'] = forms.DateTimeField(widget=forms.SelectDateWidget())
 
