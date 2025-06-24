@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<table>
+
+<tr>
+    <th>Questionnaire</th>
+    <th>Team</th>
+    <th>Completed Date</th>
+    <th>Updated Date</th>
+
+</tr>
+
+{% for r in response %}
+<tr>
+
+    <td>{{ r.questionnaire }}</td>
+    <td>{{ r.team }}</td>
+    <td>{{ r.completed_date }}</td>
+    <td>{{ r.updated_at }}</td>
+    <td><a href="view_submission/{{ r.id }}"><button>View</button></a></td>
+    <td><button>Delete</button></td>
+
+</tr>
+{% endfor %}
+</table>
+</body>
+</html>

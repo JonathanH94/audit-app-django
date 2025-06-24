@@ -6,10 +6,9 @@
 </head>
 <body>
 
-{% if messages %}
-  {% for message in messages %}
-    <p>{{ message }}</p>
-  {% endfor %}
-{% endif %}
+{% for ra in response_answer %}
+    {{ ra }}
+{% endfor %}
+
 </body>
 </html>
