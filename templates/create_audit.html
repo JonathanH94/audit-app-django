@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<form method="post">
-{% csrf_token%}
-{{ form }}
- <button type="submit">Submit</button>
+{% include "header.html" %}
+
+ <h2 class="mb-4">Create Audit: {{ form.questionnaire }}</h2>
+
+<form method="post" class="p-3">
+  {% csrf_token %}
+  {{ form }}
+  <button class="btn btn-success mt-3" type="submit">Submit</button>
 </form>
-</body>
-</html>
+
+{% include "footer.html" %}

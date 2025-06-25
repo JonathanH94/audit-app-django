@@ -1,16 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% include "header.html" %}
 
-<h1>Welcome to the Audit Dashboard</h1>
+<div class="container py-5">
+  <h1 class="mb-4 text-center">Welcome to the Audit Dashboard</h1>
 
-<a href="/select_audit"><h3>Create New Audit</h3></a>
+  <div class="row justify-content-center g-4">
+    <div class="col-md-4">
+      <div class="card shadow h-100 text-center">
+        <div class="card-body d-flex flex-column justify-content-center">
+          <h3><a href="/my_submissions" class="stretched-link text-decoration-none">My Submissions</a></h3>
+        </div>
+      </div>
+    </div>
 
-<a href="/my_submissions"><h3>My Submissions</h3></a>
+    <div class="col-md-4">
+      <div class="card shadow h-100 text-center">
+        <div class="card-body d-flex flex-column justify-content-center">
+          <h3><a href="/select_audit" class="stretched-link text-decoration-none">Create New Audit</a></h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-</body>
-</html>
+{% include "footer.html" %}

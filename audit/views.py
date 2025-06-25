@@ -85,6 +85,7 @@ def delete_submission(request, response_id):
         response = get_object_or_404(Response, pk=response_id)
         response.delete()
 
+        messages.success(request, "Successfully deleted submission")
         return redirect('my_submissions')
 
 """
@@ -138,7 +139,7 @@ def edit_submission(request, response_id):
                     answer = form.cleaned_data[key]
                     question = Question.objects.get(pk=question_id)
                     ResponseAnswer.objects.update_or_create(response=response, question=question, defaults={'answer':answer})
-
+        messages.success(request, "Audit was updated")
         return redirect('my_submissions')
 
 
