@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Response, ResponseAnswer, Question, Questionnaire
 from .forms import AuditForm
 from django.contrib import messages
@@ -10,7 +10,6 @@ from django.contrib import messages
 #SELECT AUDIT FROM PANEL LIST OF AUDITS
 ####################
 """
-
 def select_audit(request):
     if request.method == 'GET':
         questionnaires = Questionnaire.objects.all()
@@ -22,7 +21,6 @@ def select_audit(request):
 #CREATE AUDIT
 ####################
 """
-
 def create_audit(request, questionnaire_id):
     if request.method == 'GET':
         questionnaire_result = Questionnaire.objects.get(pk=questionnaire_id)
@@ -82,9 +80,67 @@ def view_submission(request, response_id):
 #DELETE SUBMISSION
 ####################
 """
-#
-# def delete_submission(request, response_id):
-#     if request.method == 'DELETE':
+def delete_submission(request, response_id):
+    if request.method == 'POST':
+        response = get_object_or_404(Response, pk=response_id)
+        response.delete()
+
+        return redirect('my_submissions')
+
+"""
+####################
+#EDIT SUBMISSION
+####################
+"""
+def edit_submission(request, response_id):
+    if request.method == 'GET':
+        response = Response.objects.get(pk=response_id)
+
+        questionnaire = response.questionnaire
+
+        response_answer = ResponseAnswer.objects.filter(response_id=response_id)
+
+
+
+        initial_data = {
+            'team': response.team,
+            'completed_date': response.completed_date,
+
+
+
+        }
+
+        for ans in response_answer:
+            key = f"question_{ans.question.id}"
+            value = ans.answer
+            initial_data[key] = value
+
+        form = AuditForm(initial=initial_data, questionnaire=questionnaire)
+
+
+        return render(request, 'edit_submission.html', {'edit_form': form})
+    elif request.method == 'POST':
+
+        response = Response.objects.get(pk=response_id)
+
+        questionnaire = response.questionnaire
+
+        form = AuditForm(request.POST, questionnaire=questionnaire)
+
+        if form.is_valid():
+            new_team = form.cleaned_data['team']
+            response.team  = new_team
+            response.save()
+
+            for key, value in form.cleaned_data.items():
+                if key.startswith('question_'):
+                    question_id = int(key.split('_')[1])
+                    answer = form.cleaned_data[key]
+                    question = Question.objects.get(pk=question_id)
+                    ResponseAnswer.objects.update_or_create(response=response, question=question, defaults={'answer':answer})
+
+        return redirect('my_submissions')
+
 
 
 
