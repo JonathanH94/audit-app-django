@@ -1,4 +1,10 @@
-
-
-</body>
-</html>
+<footer style="position: fixed; bottom: 0; width: 100%; background: #f8f9fa; padding: 10px;">
+  <div style="text-align: right;">
+    {% if user.is_authenticated and show_logout|default:True %}
+    <form method="post" action="{% url 'logout_view' %}" style="display: inline;">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Logout</button>
+    </form>
+    {% endif %}
+  </div>
+</footer>

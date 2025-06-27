@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Response, ResponseAnswer, Question, Questionnaire
 from .forms import AuditForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -10,6 +11,7 @@ from django.contrib import messages
 #SELECT AUDIT FROM PANEL LIST OF AUDITS
 ####################
 """
+@login_required(login_url='login_view')
 def select_audit(request):
     if request.method == 'GET':
         questionnaires = Questionnaire.objects.all()
@@ -21,6 +23,7 @@ def select_audit(request):
 #CREATE AUDIT
 ####################
 """
+@login_required(login_url='login_view')
 def create_audit(request, questionnaire_id):
     if request.method == 'GET':
         questionnaire_result = Questionnaire.objects.get(pk=questionnaire_id)
@@ -47,7 +50,7 @@ def create_audit(request, questionnaire_id):
                  question = Question.objects.get(pk=question_id)
                  ResponseAnswer.objects.create(response=response, question=question, answer=answer)
           messages.success(request, "Successfully created audit")
-        return  render(request, 'confirmation.html')
+        return  redirect('my_submissions')
 
 
 """
@@ -55,7 +58,7 @@ def create_audit(request, questionnaire_id):
 #MY SUBMISSIONS
 ####################
 """
-
+@login_required(login_url='login_view')
 def my_submissions(request):
     if request.method == 'GET':
         response = Response.objects.filter(user=request.user)
@@ -68,7 +71,7 @@ def my_submissions(request):
 #VIEW SUBMISSION
 ####################
 """
-
+@login_required(login_url='login_view')
 def view_submission(request, response_id):
     if request.method == 'GET':
         response_answer = ResponseAnswer.objects.filter(response_id=response_id)
@@ -80,6 +83,7 @@ def view_submission(request, response_id):
 #DELETE SUBMISSION
 ####################
 """
+@login_required(login_url='login_view')
 def delete_submission(request, response_id):
     if request.method == 'POST':
         response = get_object_or_404(Response, pk=response_id)
@@ -93,6 +97,7 @@ def delete_submission(request, response_id):
 #EDIT SUBMISSION
 ####################
 """
+@login_required(login_url='login_view')
 def edit_submission(request, response_id):
     if request.method == 'GET':
         response = Response.objects.get(pk=response_id)
