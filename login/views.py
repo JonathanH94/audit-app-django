@@ -21,8 +21,6 @@ def login_view(request):
                 login(request, user)
 
                 return redirect('index')
-            else:
-                messages.error(request, 'Invalid username or password.')
         else:
             messages.error(request, "Problem completing the form")
             return render(request, 'login.html', {'login_form': login_form, 'show_logout': False})
